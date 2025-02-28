@@ -36,7 +36,9 @@ runs:
     - run: |
         export IDF_TARGET=$(echo "${{ inputs.esp_target }}" | tr '[:upper:]' '[:lower:]' | tr -d '_-')
         touch "esp-idf-build.env"
-        docker run -t -e IDF_TARGET="${IDF_TARGET}" --env-file "esp-idf-build.env" \
+        docker run \
+          --tty \
+          --env IDF_TARGET="${IDF_TARGET}" \
           --env-file "${GITHUB_WORKSPACE}/${{ inputs.env-file }}" \
           --workdir "/app/${{ github.repository }}/${{ inputs.path }}" \
           --volume "${GITHUB_WORKSPACE}:/app/${{ github.repository }}" \
